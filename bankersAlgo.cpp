@@ -2,46 +2,18 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-#define mp(a,b) make_pair(a,b)
-#define pb(a) push_back(a)
-#define ff first
-#define ss second
-
-typedef long long ll;
-typedef long double ld;
-
-typedef pair<int, int> pi;
-typedef pair<ll,ll> pl;
-typedef pair<ld,ld> pd;
-
-typedef vector<int> vi;
-typedef vector<ld> vd;
-typedef vector<ll> vl;
-typedef vector<pi> vpi;
-typedef vector<pl> vpl;
-
-template<class T> using pq = priority_queue<T>;
-template<class T> using pqg = priority_queue<T, vector<T>, greater<T>>;
-
-
-#define FOR(i, a, b) for (int i=a; i<(b); i++)
-#define FORd(i,a,b) for (int i = (b)-1; i >= a; i--)
-#define F0Rd(i,a) for (int i = (a)-1; i >= 0; i--)
-#define trav(a,x) for (auto& a : x)
-const char nl = '\n';
-const long long MAX_SIZE = 10000001;
-vector<long long >isprime(MAX_SIZE , true);
-vector<long long >prime;
-vector<long long >SPF(MAX_SIZE);
 int main()
 {
     int p,r;
+    cout<<"\nEnter the number of processes and resources: ";
     cin>>p>>r;
     int totalres[r];
+    cout<<"\nEnter the total count of all resources: ";
     for (int i = 0; i < r; ++i)
     {
         cin>>totalres[i];    
     }
+    cout<<"\nEnter the Allocated Matrix: \n";
 
     int allocated[p][r];
     for (int i = 0; i < p; ++i)
@@ -51,6 +23,7 @@ int main()
             cin>>allocated[i][j];
         }
     }
+    cout<<"\nEnter the Max Requirement Matrix: \n";
 
     int MAX[p][r];
     for (int i = 0; i < p; ++i)
@@ -62,6 +35,7 @@ int main()
     }
     
     int need[p][r];
+    cout<<"\nThe Need Matrix is as follows :\n";
     for (int i = 0; i < p; ++i)
     {
         for (int j = 0; j < r; ++j)
@@ -76,13 +50,11 @@ cout<<endl;
     for (int i = 0; i < r; ++i)
     {
         available[i]=totalres[i];
-        cout<<available[i]<<' ';
 
         for (int j = 0; j < p; ++j)
         {
-            available[i]-=allocated[i][j];
+            available[i]-=allocated[j][i];
         }
-        cout<<available[i]<<' ';
     }
     
     int pcount=0;
@@ -99,7 +71,7 @@ cout<<endl;
 
             for (int j = 0; j < r; ++j)
             {
-                if(need[i][j]<available[j])
+                if(need[i][j]>available[j])
                     {
                         button=false;
                         break;
@@ -131,6 +103,7 @@ cout<<endl;
             break;
         }
     }
+
     if(successful){
         cout<<"System is in safe state with following order of execution\n";
         for(auto i:res)
